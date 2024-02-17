@@ -4,7 +4,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { EntryModule } from './entry/entry.module';
-import { EntryService } from './entry/entry.service';
 
 @Module({
   imports: [

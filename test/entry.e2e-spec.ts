@@ -4,7 +4,6 @@ import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
 import { CreateEntryDto } from '../src/entry/dto/create-entry.dto';
 import { EntryService } from '../src/entry/entry.service';
-import { UpdateEntryDto } from '../src/entry/dto/update-entry.dto';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
@@ -100,14 +99,6 @@ describe('AppController (e2e)', () => {
         'DKK',
         'pizza',
         'I should not buy takeout 1',
-      );
-
-      const mockEntry2 = new CreateEntryDto(
-        200,
-        new Date(),
-        'USD',
-        'burger',
-        'I should not buy takeout 2',
       );
 
       const createdEntry1 = await entryService.create(mockEntry1);
