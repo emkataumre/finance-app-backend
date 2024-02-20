@@ -21,6 +21,6 @@ export class Entry {
   @Column()
   comment: string;
 
-  @ManyToOne(() => Entry, (entry) => entry.category)
+  @ManyToOne(() => Category, (category) => category.entries)
   category: Category;
 }
