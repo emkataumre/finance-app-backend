@@ -4,10 +4,13 @@ import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
 import { CreateEntryDto } from '../src/entry/dto/create-entry.dto';
 import { EntryService } from '../src/entry/entry.service';
+import { Repository } from 'typeorm';
+import { Entry } from 'src/entry/entities/entry.entity';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
   let entryService: EntryService;
+  let entryRepository: Repository<Entry>;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -20,6 +23,15 @@ describe('AppController (e2e)', () => {
     await entryService.removeAll();
 
     await app.init();
+  });
+
+  afterEach(async () => {
+    const moduleFixture: TestingModule = await Test.createTestingModule({
+      imports: [AppModule],
+    }).compile();
+
+    await entryRepository.query('DELETE FROM entry');
+    await moduleFixture.close();
   });
 
   describe('/ (POST) entry controller', () => {
