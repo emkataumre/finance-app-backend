@@ -1,10 +1,10 @@
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
-import { AppModule } from '../src/app.module';
 import { CategoryService } from '../src/category/category.service';
 import { EntryService } from '../src/entry/entry.service';
 import { CreateCategoryDto } from '../src/category/dto/create-category.dto';
+import { TestModule } from './test.module';
 
 describe('CategoryController (e2e)', () => {
   let app: INestApplication;
@@ -13,7 +13,7 @@ describe('CategoryController (e2e)', () => {
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
+      imports: [TestModule],
     }).compile();
 
     app = moduleFixture.createNestApplication();
