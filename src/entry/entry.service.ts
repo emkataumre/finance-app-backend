@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { CreateEntryDto } from './dto/create-entry.dto';
 import { UpdateEntryDto } from './dto/update-entry.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Entry } from './entities/entry.entity';
 import { Repository } from 'typeorm';
+import { Entry } from './entities/entry.entity';
 
 @Injectable()
 export class EntryService {

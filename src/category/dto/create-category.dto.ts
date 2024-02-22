@@ -1,1 +1,7 @@
-export class CreateCategoryDto {}
+export class CreateCategoryDto {
+  name: string;
+
+  constructor(name: string) {
+    this.name = name;
+  }
+}

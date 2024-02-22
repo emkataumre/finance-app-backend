@@ -11,6 +11,7 @@ export const dbConfig: TypeOrmModuleOptions = {
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   synchronize: false,
+  autoLoadEntities: true,
   entities: ['dist/**/*.entity{.ts,.js}'],
   migrations: ['dist/src/migrations/*{.ts,.js}'],
   //   migrationsTableName: 'custom_migration_table',

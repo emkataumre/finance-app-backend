@@ -4,10 +4,13 @@ import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
 import { CreateEntryDto } from '../src/entry/dto/create-entry.dto';
 import { EntryService } from '../src/entry/entry.service';
+import { CreateCategoryDto } from '../src/category/dto/create-category.dto';
+import { CategoryService } from '../src/category/category.service';
 
-describe('AppController (e2e)', () => {
+describe('EntryController (e2e)', () => {
   let app: INestApplication;
   let entryService: EntryService;
+  let categoryService: CategoryService;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -17,6 +20,7 @@ describe('AppController (e2e)', () => {
     app = moduleFixture.createNestApplication();
     app.useGlobalPipes(new ValidationPipe());
     entryService = moduleFixture.get<EntryService>(EntryService);
+    categoryService = moduleFixture.get<CategoryService>(CategoryService);
     await entryService.removeAll();
 
     await app.init();
@@ -24,12 +28,15 @@ describe('AppController (e2e)', () => {
 
   describe('/ (POST) entry controller', () => {
     it('should create a new entry when passed a valid entry)', async () => {
+      const mockCategory = new CreateCategoryDto('Food');
+      const savedCategory = await categoryService.create(mockCategory);
       const validEntry = new CreateEntryDto(
         100,
         new Date(),
         'DKK',
         'pizza',
         'i should not buy takeout',
+        savedCategory,
       );
       const { body } = await request(app.getHttpServer())
         .post('/entry')
@@ -41,12 +48,15 @@ describe('AppController (e2e)', () => {
     });
 
     it('should not create a new entry when passed an invalid entry)', async () => {
+      const mockCategory = new CreateCategoryDto('Food');
+      const savedCategory = await categoryService.create(mockCategory);
       const inValidEntry = new CreateEntryDto(
         100,
         new Date(),
         'DKK',
         '',
         'i should not buy takeout',
+        savedCategory,
       );
       const { body } = await request(app.getHttpServer())
         .post('/entry')
@@ -60,12 +70,16 @@ describe('AppController (e2e)', () => {
 
   describe('/ (GET) entry controller', () => {
     it('should return all entries', async () => {
+      const mockCategory = new CreateCategoryDto('Food');
+      const savedCategory = await categoryService.create(mockCategory);
+
       const mockEntry1 = new CreateEntryDto(
         100,
         new Date(),
         'DKK',
         'pizza',
         'I should not buy takeout 1',
+        savedCategory,
       );
 
       const mockEntry2 = new CreateEntryDto(
@@ -74,6 +88,7 @@ describe('AppController (e2e)', () => {
         'USD',
         'burger',
         'I should not buy takeout 2',
+        savedCategory,
       );
 
       await entryService.create(mockEntry1);
@@ -93,12 +108,16 @@ describe('AppController (e2e)', () => {
     });
 
     it('should return one entry', async () => {
+      const mockCategory = new CreateCategoryDto('Food');
+      const savedCategory = await categoryService.create(mockCategory);
+
       const mockEntry1 = new CreateEntryDto(
         100,
         new Date(),
         'DKK',
         'pizza',
         'I should not buy takeout 1',
+        savedCategory,
       );
 
       const createdEntry1 = await entryService.create(mockEntry1);
@@ -117,12 +136,16 @@ describe('AppController (e2e)', () => {
   describe('/ (PUT) entry controller', () => {
     it('should update an entry', async () => {
       //ARRANGE
+      const mockCategory = new CreateCategoryDto('Food');
+      const savedCategory = await categoryService.create(mockCategory);
+
       const mockEntry = new CreateEntryDto(
         100,
         new Date(),
         'DKK',
         'pizza',
         'I should not buy takeout 1',
+        savedCategory,
       );
 
       const createdEntry = await entryService.create(mockEntry);
@@ -142,12 +165,16 @@ describe('AppController (e2e)', () => {
   describe('/ (DELETE) entry controller', () => {
     it('should delete one entry', async () => {
       //ARRANGE
+      const mockCategory = new CreateCategoryDto('Food');
+      const savedCategory = await categoryService.create(mockCategory);
+
       const mockEntry = new CreateEntryDto(
         100,
         new Date(),
         'DKK',
         'pizza',
         'I should not buy takeout 1',
+        savedCategory,
       );
 
       const mockEntry2 = new CreateEntryDto(
@@ -156,6 +183,7 @@ describe('AppController (e2e)', () => {
         'USD',
         'burger',
         'I should not buy takeout 2',
+        savedCategory,
       );
 
       const createdEntry = await entryService.create(mockEntry);
