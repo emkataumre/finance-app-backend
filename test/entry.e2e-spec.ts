@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from './../src/app.module';
 import { CreateEntryDto } from '../src/entry/dto/create-entry.dto';
-import { EntryService } from '../src/entry/entry.service';
 import { CreateCategoryDto } from '../src/category/dto/create-category.dto';
 import { CategoryService } from '../src/category/category.service';
+import { EntryService } from '../src/entry/entry.service';
+import { TestModule } from './test.module';
 
 describe('EntryController (e2e)', () => {
   let app: INestApplication;
@@ -14,7 +14,7 @@ describe('EntryController (e2e)', () => {
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
+      imports: [TestModule],
     }).compile();
 
     app = moduleFixture.createNestApplication();
@@ -194,8 +194,6 @@ describe('EntryController (e2e)', () => {
         .delete(`/entry/${createdEntry.id}`)
         //ASSERT
         .expect(200);
-
-      console.log(body);
 
       expect(body.affected).toEqual(1);
       expect(createdEntry2.id).toBeDefined();

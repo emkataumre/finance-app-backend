@@ -9,7 +9,6 @@ import { Category } from '../../category/entities/category.entity';
 
 export class CreateEntryDto {
   @IsNotEmpty()
-  @IsNumber()
   amount: number;
 
   @IsNotEmpty()

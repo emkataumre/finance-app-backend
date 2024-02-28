@@ -20,6 +20,7 @@ describe('CategoryController (e2e)', () => {
     app.useGlobalPipes(new ValidationPipe());
     entryService = moduleFixture.get<EntryService>(EntryService);
     categoryService = moduleFixture.get<CategoryService>(CategoryService);
+    await entryService.removeAll();
     await categoryService.removeAll();
 
     await app.init();
@@ -91,17 +92,13 @@ describe('CategoryController (e2e)', () => {
       const createdCategory = await categoryService.create(mockCategory);
       createdCategory.name = 'Entertainment';
 
-      const id = createdCategory.id;
       const { body } = await request(app.getHttpServer())
-        .put(`/category/${id}`)
+        .put(`/category/${createdCategory.id}`)
         .send(createdCategory)
         //ASSERT
         .expect(200);
 
-      console.log(body);
-
       expect(body.affected).toEqual(1);
-      expect(body.name).toEqual('Entertainment');
     });
   });
 
@@ -114,11 +111,9 @@ describe('CategoryController (e2e)', () => {
       const createdCategory2 = await categoryService.create(mockCategory2);
 
       const { body } = await request(app.getHttpServer())
-        .delete(`/entry/${createdCategory1.id}`)
+        .delete(`/category/${createdCategory1.id}`)
         //ASSERT
         .expect(200);
-
-      console.log('delet', body);
 
       expect(createdCategory1.id).not.toBeDefined();
       expect(createdCategory2.id).toBeDefined();

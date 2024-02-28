@@ -5,6 +5,7 @@ import { AppController } from '../src/app.controller';
 import { AppService } from '../src/app.service';
 import { CategoryModule } from '../src/category/category.module';
 import { EntryModule } from '../src/entry/entry.module';
+import { EntryService } from '../src/entry/entry.service';
 
 @Module({
   imports: [
