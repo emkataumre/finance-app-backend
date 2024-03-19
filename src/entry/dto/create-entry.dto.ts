@@ -1,7 +1,6 @@
 import {
   IsDateString,
   IsNotEmpty,
-  IsNumber,
   IsOptional,
   IsString,
 } from 'class-validator';
@@ -11,7 +10,7 @@ export class CreateEntryDto {
   @IsNotEmpty()
   amount: number;
 
-  @IsNotEmpty()
+  // @IsNotEmpty()
   @IsDateString()
   date: Date;
 
